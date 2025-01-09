@@ -1,0 +1,50 @@
+import plotly.graph_objects as go
+import pandas as pd
+
+# Exemplo de dados
+data = {
+    'Categoria': ['A', 'B', 'C', 'D', 'E'],
+    'Valor_Barras': [10, 15, 13, 8, 25],  # Valores para as barras
+    'Valor_Bolha': [5, 7, 3, 12, 9],      # Altura das bolhas (para o eixo Y)
+    'Tamanho_Bolha': [20, 40, 60, 80, 100]  # Tamanho das bolhas
+}
+
+# Criando um DataFrame com os dados
+df = pd.DataFrame(data)
+
+# Criando a figura com barras e bolhas
+fig = go.Figure()
+
+# Gráfico de Barras
+fig.add_trace(go.Bar(
+    x=df['Categoria'],
+    y=df['Valor_Barras'],
+    name='Barras',
+    marker_color='rgb(55, 83, 109)',  # Cor das barras
+))
+
+# Gráfico de Bolhas (dispersão)
+fig.add_trace(go.Scatter(
+    x=df['Categoria'],
+    y=df['Valor_Bolha'],
+    mode='markers',
+    name='Bolhas',
+    marker=dict(
+        size=df['Tamanho_Bolha'],  # Tamanho das bolhas
+        color=df['Tamanho_Bolha'],  # Cor das bolhas com base no tamanho
+        colorscale='Viridis',  # Escala de cor para as bolhas
+        showscale=True  # Mostrar escala de cor
+    )
+))
+
+# Títulos e configurações do gráfico
+fig.update_layout(
+    title='Gráfico Combinado de Barras e Bolhas',
+    xaxis_title='Categoria',
+    yaxis_title='Valores',
+    template='plotly',
+    showlegend=True
+)
+
+# Exibir o gráfico
+fig.show()
