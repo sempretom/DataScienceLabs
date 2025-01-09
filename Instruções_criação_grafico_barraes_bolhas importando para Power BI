@@ -1,0 +1,113 @@
+Para criar um gráfico em Python que combine barras e bolhas, você pode usar a biblioteca Matplotlib ou Plotly. Ambos os pacotes são bem integrados ao Power BI e permitem a criação de gráficos customizados. Vou te mostrar como criar um gráfico de barras combinado com bolhas, onde uma variável é representada pelas barras e outra pelas bolhas.
+
+Aqui está o modelo de código em Python para criar esse gráfico, que pode ser facilmente importado para o Power BI. Usaremos o Plotly por ser interativo e também ser bem aceito no Power BI.
+
+Exemplo: Gráfico de Barras + Bolhas
+Vamos supor que você tenha duas variáveis principais:
+
+Variável 1 (Eixo X): Representada pelas barras.
+Variável 2 (Eixo Y): Representada pelas bolhas.
+Tamanho da bolha: Representado por uma terceira variável (pode ser qualquer dado numérico, como quantidade, valor, etc.).
+1. Instale o Plotly
+Caso ainda não tenha o Plotly instalado, você pode instalá-lo com o seguinte comando no terminal:
+
+bash
+Copiar código
+pip install plotly
+2. Código para Criar o Gráfico
+Aqui está o código para criar o gráfico que mistura barras e bolhas. Vou usar um exemplo simples, onde x é a variável categórica, y é a variável numérica que define a altura das barras, e o tamanho das bolhas é determinado pela tamanho_bolha.
+
+python
+Copiar código
+import plotly.graph_objects as go
+import pandas as pd
+
+# Exemplo de dados
+data = {
+    'Categoria': ['A', 'B', 'C', 'D', 'E'],
+    'Valor_Barras': [10, 15, 13, 8, 25],  # Valores para as barras
+    'Valor_Bolha': [5, 7, 3, 12, 9],      # Altura das bolhas (para o eixo Y)
+    'Tamanho_Bolha': [20, 40, 60, 80, 100]  # Tamanho das bolhas
+}
+
+# Criando um DataFrame com os dados
+df = pd.DataFrame(data)
+
+# Criando a figura com barras e bolhas
+fig = go.Figure()
+
+# Gráfico de Barras
+fig.add_trace(go.Bar(
+    x=df['Categoria'],
+    y=df['Valor_Barras'],
+    name='Barras',
+    marker_color='rgb(55, 83, 109)',  # Cor das barras
+))
+
+# Gráfico de Bolhas (dispersão)
+fig.add_trace(go.Scatter(
+    x=df['Categoria'],
+    y=df['Valor_Bolha'],
+    mode='markers',
+    name='Bolhas',
+    marker=dict(
+        size=df['Tamanho_Bolha'],  # Tamanho das bolhas
+        color=df['Tamanho_Bolha'],  # Cor das bolhas com base no tamanho
+        colorscale='Viridis',  # Escala de cor para as bolhas
+        showscale=True  # Mostrar escala de cor
+    )
+))
+
+# Títulos e configurações do gráfico
+fig.update_layout(
+    title='Gráfico Combinado de Barras e Bolhas',
+    xaxis_title='Categoria',
+    yaxis_title='Valores',
+    template='plotly',
+    showlegend=True
+)
+
+# Exibir o gráfico
+fig.show()
+Explicação do Código
+Dados: O código começa com a criação de um DataFrame que simula os dados que você gostaria de visualizar.
+
+Categoria: Variável categórica que será mostrada no eixo X.
+Valor_Barras: Valores das barras, que são representados no eixo Y pelas barras.
+Valor_Bolha: Valores numéricos representados pelas bolhas no eixo Y.
+Tamanho_Bolha: A variável numérica que define o tamanho das bolhas.
+Gráfico de Barras:
+
+Utiliza o go.Bar() para criar as barras no gráfico, com as categorias no eixo X e os valores de Valor_Barras no eixo Y.
+Gráfico de Bolhas:
+
+Utiliza o go.Scatter() para criar as bolhas. As bolhas são posicionadas no eixo X de acordo com Categoria, e no eixo Y com Valor_Bolha. O tamanho das bolhas é determinado por Tamanho_Bolha.
+O parâmetro mode='markers' é utilizado para criar um gráfico de dispersão com pontos representando as bolhas.
+Configurações do Layout:
+
+O título do gráfico e os rótulos dos eixos são definidos.
+A paleta de cores das bolhas é definida usando colorscale='Viridis'.
+A legenda é ativada.
+3. Importando o Gráfico para o Power BI
+Para usar esse gráfico no Power BI, siga os seguintes passos:
+
+Ative o Python no Power BI:
+
+No Power BI Desktop, vá em Arquivo > Opções e configurações > Opções.
+Selecione R e Python e marque a opção Ativar script de Python.
+Carregue o gráfico:
+
+No Power BI, clique em Inserir > Gráfico Python.
+Cole o código Python no painel de script e execute.
+Conecte os dados:
+
+Insira a tabela de dados no Power BI. O Power BI passará essa tabela para o script Python.
+Executar:
+
+Após rodar o script, o gráfico gerado será exibido na tela do Power BI.
+4. Personalizações e Ajustes
+Você pode personalizar ainda mais esse gráfico, alterando o estilo das barras, bolhas, cores, legendas, entre outras opções de visualização que o Plotly oferece. Algumas dicas:
+
+Tamanho das bolhas: ajuste o tamanho das bolhas com base nos valores das variáveis.
+Escala de cores: mude a colorscale para personalizar as cores das bolhas.
+Interatividade: o Plotly oferece gráficos interativos por padrão, com possibilidade de zoom, hover e outros recursos.
